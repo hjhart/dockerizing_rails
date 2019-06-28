@@ -1,5 +1,5 @@
 # Keeping gems
-We made sure that we don't have to re-install all gems when we make changes to our source code. However, with every change to the `Gemfile`/`Gemfile.lock` we have to re-install all gems again - and waiting for nokogiri to compile can get pretty annoying. It also means that if you switching between branches that use different gems or gem versions, you get stuck in this loop of re-building your Docker Image.
+We made sure that we don't have to re-install all gems when we make changes to our source code. However, with every change to the `Gemfile`/`Gemfile.lock` we have to re-install all gems again - and waiting for nokogiri to compile can get pretty annoying. It also means that if you are switching between branches that use different gems or gem versions, you get stuck in this loop of re-building your Docker Image.
 
 There are some workarounds for this - one of them being: 
 

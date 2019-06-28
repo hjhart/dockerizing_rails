@@ -49,6 +49,9 @@ docker-compose up -d
 *__Side note__*: Run the command a second time if you get an error - depending on the order in which things happen the app container might still be holding port 3000 open.
 
 You can now use `docker-compose exec` to send arbitrary shell commands to a running Container of the `app` service:
+
+TODO: Spring doesn't load on the first go.
+
 ```
 docker-compose exec app rspec
 docker-compose exec app rake db:migrate

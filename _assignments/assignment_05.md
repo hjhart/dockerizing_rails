@@ -82,7 +82,7 @@ Things are going wrong? Let's make them work! Here are a couple of things to try
 * Remove the Postgres container and volume:
   ```
   docker container rm -f pg
-  docker voume rm ws-pg-data
+  docker volume rm ws-pg-data
   ```
 
   And then try it again

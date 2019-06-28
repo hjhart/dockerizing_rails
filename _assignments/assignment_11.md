@@ -27,4 +27,6 @@ touch ${HOME}/.irb-history
 
 Wondering about the environment variable in the compose file? It's a thing: https://docs.docker.com/compose/environment-variables/
 
+TODO: Mention that this can be done for any dot files you find useful in your development cycle
+
 [Back to the overview](../README.md#assignments)

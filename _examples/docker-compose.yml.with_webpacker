@@ -1,0 +1,81 @@
+version: '3.7'
+
+services:
+  app:
+    image: your_docker_id/rails_app:v1
+    build:
+      context: .
+    command: ["spring", "server"]
+    volumes:
+      - ./:/usr/src/app
+      - ${HOME}/.irb-history:/root/.irb-history
+      - ${HOME}/.irbrc:/root/.irbrc
+      - gems:/usr/local/bundle
+    environment:
+      - POSTGRES_HOST=pg
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secret
+      - REDIS_HOST=redis
+      - SIDEKIQ_ENABLED=true
+      - RAILS_ENV
+
+  webpack-dev-server:
+    image: your_docker_id/rails_app:v1
+    command: ["bin/webpack-dev-server"]
+    volumes:
+      - ./:/usr/src/app
+      - gems:/usr/local/bundle
+    environment:
+      - WEBPACKER_DEV_SERVER_INLINE=true
+      - WEBPACKER_DEV_SERVER_HOT=false
+      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
+      - NODE_ENV
+    ports:
+      - 3035:3035
+
+  web:
+    image: your_docker_id/rails_app:v1
+    command: ["rails", "server", "--pid=/tmp/server.pid"]
+    volumes:
+      - ./:/usr/src/app
+      - gems:/usr/local/bundle
+    environment:
+      - WEBPACKER_DEV_SERVER_HOST=localhost:3035
+      - WEBPACKER_DEV_SERVER_INLINE=true 
+      - WEBPACKER_DEV_SERVER_HOT=false
+      - POSTGRES_HOST=pg
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secret
+      - REDIS_HOST=redis
+      - SIDEKIQ_ENABLED=true
+      - RAILS_ENV
+    ports:
+      - 3000:3000
+  redis:
+    image: redis:4.0
+  pg:
+    image: postgres:10.6-alpine
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secret
+  sidekiq:
+    image: your_docker_id/rails_app:v1
+    build:
+      context: .
+    command: ["sidekiq"]
+    volumes:
+      - ./:/usr/src/app
+      - gems:/usr/local/bundle
+    environment:
+      - POSTGRES_HOST=pg
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secret
+      - REDIS_HOST=redis
+      - SIDEKIQ_ENABLED=true
+      - RAILS_ENV
+
+volumes:
+  pg-data:
+  gems:
