@@ -12,6 +12,7 @@ services:
       - ${HOME}/.irbrc:/root/.irbrc
       - gems:/usr/local/bundle
     environment:
+      - WEBPACKER_DEV_SERVER_HOST=webpack
       - POSTGRES_HOST=pg
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=secret
@@ -19,15 +20,13 @@ services:
       - SIDEKIQ_ENABLED=true
       - RAILS_ENV
 
-  webpack-dev-server:
+  webpack:
     image: your_docker_id/rails_app:v1
     command: ["bin/webpack-dev-server"]
     volumes:
       - ./:/usr/src/app
       - gems:/usr/local/bundle
     environment:
-      - WEBPACKER_DEV_SERVER_INLINE=true
-      - WEBPACKER_DEV_SERVER_HOT=false
       - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
       - NODE_ENV
     ports:
@@ -40,9 +39,7 @@ services:
       - ./:/usr/src/app
       - gems:/usr/local/bundle
     environment:
-      - WEBPACKER_DEV_SERVER_HOST=localhost:3035
-      - WEBPACKER_DEV_SERVER_INLINE=true 
-      - WEBPACKER_DEV_SERVER_HOT=false
+      - WEBPACKER_DEV_SERVER_HOST=webpack
       - POSTGRES_HOST=pg
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=secret
